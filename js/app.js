@@ -36,18 +36,26 @@ function renderApis() {
         const card = document.createElement("div");
         card.classList.add("api-card");
 
-        card.innerHTML = `
+       card.innerHTML = `
             <div class="api-info">
                 <h3>${api.name}</h3>
                 <p>${api.url}</p>
             </div>
 
-            <div class="api-status">
-                ${api.statusCode} | ${api.responseTime} ms | ${api.status}
+            <div class="api-actions">
+                <div class="api-status">
+                    ${api.statusCode} | ${api.responseTime} ms | ${api.status}
+                </div>
+
+                <button class="check-btn">Check Now</button>
             </div>
         `;
+        const checkButton = card.querySelector(".check-btn");
 
-        apiList.appendChild(card);
+        checkButton.addEventListener("click", function() {
+            checkApi(api);
+        });
+            apiList.appendChild(card);
     });
 }
 

@@ -160,3 +160,22 @@ main h2 {
     font-size: 14px;
     min-height: 18px;
 }
+
+.api-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.check-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.check-btn:hover {
+    background-color: #1d4ed8;
+}
