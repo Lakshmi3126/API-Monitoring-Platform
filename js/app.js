@@ -43,14 +43,28 @@ function renderApis() {
             </div>
 
             <div class="api-actions">
-                <div class="api-status">
-                    ${api.statusCode} | ${api.responseTime} ms | ${api.status}
-                </div>
+            <div class="api-status">
+                ${api.statusCode} | ${api.responseTime} ms | ${api.status}
+            </div>
 
-                <button class="check-btn">Check Now</button>
+            <button class="check-btn">Check Now</button>
+            <button class="delete-btn">Delete</button>
             </div>
         `;
         const checkButton = card.querySelector(".check-btn");
+        const deleteButton = card.querySelector(".delete-btn");
+
+        deleteButton.addEventListener("click", function() {
+
+            const index = apis.indexOf(api);
+
+            apis.splice(index, 1);
+
+            localStorage.setItem("apis", JSON.stringify(apis));
+
+            renderApis();
+            updateStats();
+        });
 
         checkButton.addEventListener("click", function() {
             checkApi(api);

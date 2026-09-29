@@ -179,3 +179,16 @@ main h2 {
 .check-btn:hover {
     background-color: #1d4ed8;
 }
+
+.delete-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #dc2626;
+    color: white;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
