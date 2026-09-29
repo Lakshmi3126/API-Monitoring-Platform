@@ -1,5 +1,6 @@
-// Mock API data
-const apis = [
+const savedApis = localStorage.getItem("apis");
+// If there are saved APIs in localStorage, use them; otherwise, use the default APIs
+const apis = savedApis ? JSON.parse(savedApis) : [
     {
         name: "GitHub API",
         url: "https://api.github.com",
@@ -23,58 +24,108 @@ const apis = [
     }
 ];
 
-// Get the API list container 
-const apiList = document.getElementById("api-list");
+function renderApis() {
 
-apis.forEach(function(api) {
+    const apiList = document.getElementById("api-list");
 
-    const card = document.createElement("div");
-    card.classList.add("api-card");
+    // Clear existing cards
+    apiList.innerHTML = "";
 
-    card.innerHTML = `
-        <div class="api-info">
-            <h3>${api.name}</h3>
-            <p>${api.url}</p>
-        </div>
+    apis.forEach(function(api) {
 
-        <div class="api-status">
-            ${api.statusCode} | ${api.responseTime} ms | ${api.status}
-        </div>
-    `;
+        const card = document.createElement("div");
+        card.classList.add("api-card");
 
-    apiList.appendChild(card);
+        card.innerHTML = `
+            <div class="api-info">
+                <h3>${api.name}</h3>
+                <p>${api.url}</p>
+            </div>
+
+            <div class="api-status">
+                ${api.statusCode} | ${api.responseTime} ms | ${api.status}
+            </div>
+        `;
+
+        apiList.appendChild(card);
+    });
+}
+
+
+
+function updateStats() {
+
+    const totalApis = apis.length;
+
+    const healthyApis = apis.filter(function(api) {
+        return api.status === "Healthy";
+    }).length;
+
+    const downApis = apis.filter(function(api) {
+        return api.status === "Down";
+    }).length;
+
+    const totalResponseTime = apis.reduce(function(total, api) {
+        return total + api.responseTime;
+    }, 0);
+
+    const averageResponseTime =
+        totalApis > 0 ? totalResponseTime / totalApis : 0;
+
+
+    document.getElementById("total-apis").textContent = totalApis;
+
+    document.getElementById("healthy-apis").textContent = healthyApis;
+
+    document.getElementById("down-apis").textContent = downApis;
+
+    document.getElementById("avg-response").textContent =
+        Math.round(averageResponseTime) + " ms";
+}
+
+// Add API form functionality
+const addApiButton = document.getElementById("add-api-btn");
+const addApiForm = document.getElementById("add-api-form");
+const cancelButton = document.getElementById("cancel-btn");
+
+// Open form
+addApiButton.addEventListener("click", function() {
+    addApiForm.style.display = "block";
 });
 
-// Total number of APIs
-const totalApis = apis.length;
+// Close form
+cancelButton.addEventListener("click", function() {
+    addApiForm.style.display = "none";
+});
 
+// Handle form submission
+const apiForm = document.getElementById("api-form");
+apiForm.addEventListener("submit", function(event) {
 
-// Number of healthy APIs
-const healthyApis = apis.filter(function(api) {
-    return api.status === "Healthy";
-}).length;
+    event.preventDefault();
 
+    const name = document.getElementById("api-name").value;
+    const url = document.getElementById("api-url").value;
+    const method = document.getElementById("api-method").value;
 
-// Number of down APIs
-const downApis = apis.filter(function(api) {
-    return api.status === "Down";
-}).length;
+    const newApi = {
+        name: name,
+        url: url,
+        method: method,
+        status: "Unknown",
+        statusCode: "-",
+        responseTime: 0
+    };
 
+    apis.push(newApi);
+    // Save the updated APIs to localStorage
+    localStorage.setItem("apis", JSON.stringify(apis));
+    renderApis();
+    updateStats();
+    apiForm.reset();
 
-// Average response time
-const totalResponseTime = apis.reduce(function(total, api) {
-    return total + api.responseTime;
-}, 0);
+    addApiForm.style.display = "none";
+});
 
-const averageResponseTime = totalResponseTime / apis.length;
-
-
-// Update the HTML
-document.getElementById("total-apis").textContent = totalApis;
-
-document.getElementById("healthy-apis").textContent = healthyApis;
-
-document.getElementById("down-apis").textContent = downApis;
-
-document.getElementById("avg-response").textContent =
-    Math.round(averageResponseTime) + " ms";
+renderApis();
+updateStats();

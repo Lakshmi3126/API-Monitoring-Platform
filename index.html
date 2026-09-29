@@ -17,6 +17,45 @@
         <button id="add-api-btn">+ Add API</button>
     </header>
 
+    <!-- Add API Form -->
+    <section id="add-api-form" class="add-api-form">
+
+        <h2>Add an API</h2>
+
+        <form id="api-form">
+
+            <label for="api-name">API Name</label>
+            <input
+                type="text"
+                id="api-name"
+                placeholder="e.g. GitHub API"
+                required
+            >
+
+            <label for="api-url">API URL</label>
+            <input
+                type="url"
+                id="api-url"
+                placeholder="https://api.example.com"
+                required
+            >
+
+            <label for="api-method">HTTP Method</label>
+            <select id="api-method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+
+            <div class="form-buttons">
+                <button type="submit">Add API</button>
+                <button type="button" id="cancel-btn">Cancel</button>
+            </div>
+
+        </form>
+
+    </section>
 
     <!-- Summary -->
     <section class="summary">
