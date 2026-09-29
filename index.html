@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Monitor</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>API Monitor</h1>
+        <button id="add-api-btn">+ Add API</button>
+    </header>
+
+
+    <!-- Summary -->
+    <section class="summary">
+
+        <div class="summary-card">
+            <h3>Total APIs</h3>
+            <p id="total-apis">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Healthy</h3>
+            <p id="healthy-apis">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Down</h3>
+            <p id="down-apis">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Avg Response</h3>
+            <p id="avg-response">0 ms</p>
+        </div>
+
+    </section>
+
+
+    <!-- API List -->
+    <main>
+
+        <h2>Monitored APIs</h2>
+
+        <div id="api-list">
+
+            <!-- API cards will be added here using JavaScript -->
+
+        </div>
+
+    </main>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
