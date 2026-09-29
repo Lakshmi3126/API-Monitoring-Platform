@@ -146,3 +146,48 @@ apiForm.addEventListener("submit", function(event) {
 
 renderApis();
 updateStats();
+
+// Function to check the status of an API
+async function checkApi(api) {
+
+    const startTime = performance.now();
+
+    try {
+
+        const response = await fetch(api.url, {
+            method: api.method
+        });
+
+        const endTime = performance.now();
+
+        api.responseTime = Math.round(endTime - startTime);
+        api.statusCode = response.status;
+
+        if (response.ok) {
+            api.status = "Healthy";
+        } else {
+            api.status = "Down";
+        }
+
+    } catch (error) {
+
+        api.status = "Down";
+        api.statusCode = "-";
+        api.responseTime = 0;
+
+    }
+
+    localStorage.setItem("apis", JSON.stringify(apis));
+
+    renderApis();
+    updateStats();
+}
+// Check all APIs on page load
+async function checkAllApis() {
+
+    for (const api of apis) {
+        await checkApi(api);
+    }
+}
+
+checkAllApis();
