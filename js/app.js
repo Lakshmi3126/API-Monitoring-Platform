@@ -104,9 +104,24 @@ apiForm.addEventListener("submit", function(event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("api-name").value;
-    const url = document.getElementById("api-url").value;
+    const name = document.getElementById("api-name").value.trim();
+    const url = document.getElementById("api-url").value.trim();
     const method = document.getElementById("api-method").value;
+
+    const formError = document.getElementById("form-error");
+
+    formError.textContent = "";
+
+    // Validation
+    if (name === "") {
+        formError.textContent = "API name is required.";
+        return;
+    }
+
+    if (url === "") {
+        formError.textContent = "API URL is required.";
+        return;
+    }
 
     const newApi = {
         name: name,
@@ -118,10 +133,12 @@ apiForm.addEventListener("submit", function(event) {
     };
 
     apis.push(newApi);
-    // Save the updated APIs to localStorage
+
     localStorage.setItem("apis", JSON.stringify(apis));
+
     renderApis();
     updateStats();
+
     apiForm.reset();
 
     addApiForm.style.display = "none";

@@ -154,3 +154,9 @@ main h2 {
 #cancel-btn {
     background-color: #e5e7eb;
 }
+
+#form-error {
+    color: #dc2626;
+    font-size: 14px;
+    min-height: 18px;
+}
