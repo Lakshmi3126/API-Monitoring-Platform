@@ -2,10 +2,9 @@ package com.apimonitor.backend.controller;
 
 import com.apimonitor.backend.model.Api;
 import com.apimonitor.backend.service.ApiService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -32,4 +31,20 @@ public class MonitorController {
     public Api addApi(@RequestBody Api api){
         return service.addApi(api);
     }
+
+    @GetMapping("/api/{id}")
+    public Api getApi(@PathVariable("id") Long apiId){
+        Api resApi = service.getApi(apiId);
+        if (resApi==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found");
+        else return resApi;
+    }
+
+    @PutMapping("/api/{id}")
+    public Api updateApi(@PathVariable("id") Long apiId, @RequestBody Api api){
+        Api resApi = service.updateApi(apiId,api);
+        if(resApi==null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found");
+        return resApi;
+    }
+
 }
