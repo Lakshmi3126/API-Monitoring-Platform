@@ -47,4 +47,11 @@ public class MonitorController {
         return resApi;
     }
 
+    @DeleteMapping("/api/{id}")
+    public String deleteApi(@PathVariable("id") Long apiId){
+        Boolean deleted = service.deleteApi(apiId);
+        if(deleted) return "API deleted";
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found");
+    }
+
 }

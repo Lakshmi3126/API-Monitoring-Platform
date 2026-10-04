@@ -40,4 +40,14 @@ public class ApiService {
         return null;
     }
 
+    public Boolean deleteApi(Long apiId){
+        for(Api api: apis){
+            if(Objects.equals(api.getId(), apiId)){
+                apis.remove(api);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
