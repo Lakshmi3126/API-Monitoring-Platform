@@ -35,8 +35,7 @@ public class MonitorController {
     @GetMapping("/api/{id}")
     public Api getApi(@PathVariable("id") Long apiId){
         Api resApi = service.getApi(apiId);
-        if (resApi==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found");
-        else return resApi;
+        return resApi;
     }
 
     @PutMapping("/api/{id}")

@@ -1,53 +1,44 @@
 package com.apimonitor.backend.service;
 import com.apimonitor.backend.model.Api;
+import com.apimonitor.backend.repository.ApiRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ApiService {
-    private final List<Api> apis = new ArrayList<>();
+
+    ApiRepository apiRepository;
+
+    public ApiService(ApiRepository apiRepository) {
+        this.apiRepository = apiRepository;
+    }
 
     public List<Api> getApis(){
-        return apis;
+        return apiRepository.findAll();
     }
 
     public Api addApi(Api api){
-        apis.add(api);
-        return api;
+        return apiRepository.save(api);
     }
 
     public Api getApi(Long ApiId){
-        for(Api api : apis){
-            if(Objects.equals(api.getId(), ApiId)){
-                return api;
-            }
-        }
-        return null;
+        Optional<Api> apiOptional = apiRepository.findById(ApiId);
+        return apiOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found"));
     }
 
     public Api updateApi(Long apiId, Api newApi){
-        for(Api api :apis){
-            if(Objects.equals(api.getId(), apiId)){
-                api.setUrl(newApi.getUrl());
-                api.setName(newApi.getName());
-                return api;
-            }
-        }
-        return null;
+        newApi.setId(apiId);
+        return apiRepository.save(newApi);
     }
 
     public Boolean deleteApi(Long apiId){
-        for(Api api: apis){
-            if(Objects.equals(api.getId(), apiId)){
-                apis.remove(api);
-                return true;
-            }
-        }
-        return false;
+        Boolean flag = apiRepository.existsById(apiId);
+        apiRepository.deleteById(apiId);
+        return flag;
     }
 
 }
