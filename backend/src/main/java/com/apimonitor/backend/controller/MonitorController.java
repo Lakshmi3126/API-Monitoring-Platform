@@ -2,6 +2,7 @@ package com.apimonitor.backend.controller;
 
 import com.apimonitor.backend.model.Api;
 import com.apimonitor.backend.service.ApiService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,7 +29,7 @@ public class MonitorController {
     }
 
     @PostMapping("/api")
-    public Api addApi(@RequestBody Api api){
+    public Api addApi(@Valid @RequestBody Api api){
         return service.addApi(api);
     }
 

@@ -1,9 +1,8 @@
 package com.apimonitor.backend.service;
+import com.apimonitor.backend.ApiNotFoundException;
 import com.apimonitor.backend.model.Api;
 import com.apimonitor.backend.repository.ApiRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +24,9 @@ public class ApiService {
         return apiRepository.save(api);
     }
 
-    public Api getApi(Long ApiId){
-        Optional<Api> apiOptional = apiRepository.findById(ApiId);
-        return apiOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found"));
+    public Api getApi(Long apiId){
+        Optional<Api> apiOptional = apiRepository.findById(apiId);
+        return apiOptional.orElseThrow(() -> new ApiNotFoundException("API ID " +apiId+" not found"));
     }
 
     public Api updateApi(Long apiId, Api newApi){
