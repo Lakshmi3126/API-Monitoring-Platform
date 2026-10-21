@@ -40,4 +40,8 @@ public class ApiService {
         return flag;
     }
 
+    public List<Api> matchingApis(String name){
+        return apiRepository.findByNameContaining(name);
+    }
+
 }

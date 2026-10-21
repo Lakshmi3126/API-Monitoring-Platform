@@ -54,4 +54,9 @@ public class MonitorController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "API not found");
     }
 
+    @GetMapping("/api/search")
+    public List<Api> searchApis(@RequestParam String name) {
+        return service.matchingApis(name);
+    }
+
 }
