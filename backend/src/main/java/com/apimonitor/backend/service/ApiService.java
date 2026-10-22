@@ -3,6 +3,7 @@ import com.apimonitor.backend.ApiNotFoundException;
 import com.apimonitor.backend.model.Api;
 import com.apimonitor.backend.repository.ApiRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,12 @@ public class ApiService {
 
     public List<Api> matchingApis(String name){
         return apiRepository.findByNameContaining(name);
+    }
+
+    public Page<Api> paginateApis(int pageNo, int size, String sortBy, String direction){
+        Sort.Direction directionEnum = Sort.Direction.fromString(direction);
+        Pageable pageable = PageRequest.of(pageNo, size,Sort.by(directionEnum, sortBy));
+        return apiRepository.findAll(pageable);
     }
 
 }
